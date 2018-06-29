@@ -10,12 +10,12 @@ import tensorflow as tf
 import UTIL.ChordSymbolsLib as chords_lib
 import scipy.io as spio
 
-##FUZZY MUSIC COMPOSITION##
+## FUZZY MUSIC COMPOSITION ##
 
-    #GAUSSIAN STANDARD ADDITIVE MODEL (SAM)
-    #AUTHOR: TAYLOR ROSENFELD
-    #PARTNER: YAN ZHU
-    #START DATE: 11/12/17
+    # GAUSSIAN STANDARD ADDITIVE MODEL (SAM)
+    # AUTHOR: TAYLOR ROSENFELD
+    # PARTNER: YAN ZHU
+    # START DATE: 11/12/17
 
 class GaussianSAM:
     
@@ -45,11 +45,11 @@ class GaussianSAM:
         return int(pitch/12)
              
     def train(self, melodies, adapt_iters, lr, epoch_size, model_save, filename):
-        #PREPARE TRAINING DATA
+        # PREPARE TRAINING DATA
         conditioner = tf.placeholder(tf.float32, shape = None)
         actual_note = tf.placeholder(tf.int32, shape = None)
         
-        #FUZZY APPROX
+        # FUZZY APPROX
         x = tf.tensordot(conditioner, self.mem_wgts, 1)
         ax = tf.exp(tf.multiply(-0.5, tf.square(tf.divide(tf.subtract(x, self.m), self.d))))
         num = tf.reduce_sum(tf.multiply(tf.multiply(self.w, self.c), tf.multiply(self.v, ax)))
@@ -58,7 +58,7 @@ class GaussianSAM:
         learn_note = tf.nn.softmax(tf.multiply(self.cw, tf.clip_by_value(fuzzy_approx, 0, 1)))
         #tf.cast(learn_note, tf.int32)
         
-        #DEFINE LOSS, TRAIN, AND SAVE OPS
+        # DEFINE LOSS, TRAIN, AND SAVE OPS
         #loss = learn_interval - feature
         #loss = tf.reduce_mean(tf.square(learn_interval - feature))
         cross_entropy = tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(labels = actual_note, logits = learn_note))

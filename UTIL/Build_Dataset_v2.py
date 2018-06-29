@@ -23,6 +23,7 @@ import numpy as np
 import scipy.io as spio
 import tensorflow as tf
 
+
 #EXTRACT CHORDS, CHORD MEASURES, AND MEASURES
 def get_chord_prog(chords):
     chord_prog = []
@@ -32,6 +33,7 @@ def get_chord_prog(chords):
             #chord_prog.append(chord_lib.chord_symbol_root(chord))
             chord_prog.append(chord_lib.chord_symbol_pitches(chord))
     return chord_prog
+
 
 #EXTRACT MELODIES FROM MEASURES
 def get_melody(note_matrix):
@@ -90,7 +92,6 @@ def gen_data(folders, directory, chord_progs):
                 if not len(melody) == len(chord_prog):
                     num_fucked += 1
                     print('SKIPPED: ', the_file, ', MALFORMED MELODY')
-                    #print('FUCK ME')
                 else:
                     all_data[the_file] = data
         
@@ -102,7 +103,8 @@ def gen_data(folders, directory, chord_progs):
 def save_data_set(data, data_name):
     with open(data_name, 'wb') as f:
         pickle.dump(data, f, pickle.HIGHEST_PROTOCOL)
-        
+
+
 #SETTINGS/SETUP
 FOUR_FOUR = '4/4'
 cwd = os.getcwd() #Working directory 
